@@ -15,6 +15,16 @@ public class ApartmentMaintenanceApp {
         ComplaintService complaintService = new ComplaintService(notificationService);
 
         Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
+        Resident residentTwo = new Resident("Priya Desai", "priya@gmail.com");
+        Resident residentThree = new Resident("Rohit Verma", "rohit@gmail.com");
+        Resident residentFour = new Resident("Sneha Iyer", "sneha@gmail.com");
+        Resident residentFive = new Resident("Vikram Singh", "vikram@gmail.com");
+
+        complaintService.registerResident(resident);
+        complaintService.registerResident(residentTwo);
+        complaintService.registerResident(residentThree);
+        complaintService.registerResident(residentFour);
+        complaintService.registerResident(residentFive);
 
         Complaint complaint = complaintService.raiseComplaint(
                 resident,
@@ -38,4 +48,3 @@ public class ApartmentMaintenanceApp {
                 .forEach(System.out::println);
     }
 }
-

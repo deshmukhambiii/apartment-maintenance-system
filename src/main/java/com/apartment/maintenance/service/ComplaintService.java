@@ -1,31 +1,44 @@
 package com.apartment.maintenance.service;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.apartment.maintenance.domain.enums.ComplaintCategory;
 import com.apartment.maintenance.domain.enums.ComplaintStatus;
 import com.apartment.maintenance.domain.model.Complaint;
 import com.apartment.maintenance.domain.model.Resident;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ComplaintService {
 
     private final Map<String, Complaint> complaintStore = new ConcurrentHashMap<>();
+    private final Map<String, Resident> residentStore = new ConcurrentHashMap<>();
+    private final Map<String, List<Complaint>> residentComplaintStore = new ConcurrentHashMap<>();
     private final NotificationService notificationService;
 
     public ComplaintService(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
+    public void registerResident(Resident resident) {
+        residentStore.put(resident.getResidentId(), resident);
+        residentComplaintStore.putIfAbsent(resident.getResidentId(), new ArrayList<>());
+    }
+
     public Complaint raiseComplaint(Resident resident,
                                     ComplaintCategory category,
                                     String description) {
+        if (!residentStore.containsKey(resident.getResidentId())) {
+            registerResident(resident);
+        }
 
         Complaint complaint = new Complaint(resident, category, description);
         complaintStore.put(complaint.getComplaintId(), complaint);
+        residentComplaintStore
+                .computeIfAbsent(resident.getResidentId(), key -> new ArrayList<>())
+                .add(complaint);
 
         notificationService.notifyResident(
                 resident,
@@ -55,13 +68,6 @@ public class ComplaintService {
     }
 
     public List<Complaint> getComplaintsForResident(String residentId) {
-        List<Complaint> result = new ArrayList<>();
-        for (Complaint complaint : complaintStore.values()) {
-            if (complaint.getResident().getResidentId().equals(residentId)) {
-                result.add(complaint);
-            }
-        }
-        return result;
+        return residentComplaintStore.getOrDefault(residentId, Collections.emptyList());
     }
 }
-
