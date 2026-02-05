@@ -15,6 +15,7 @@ public class ApartmentMaintenanceApp {
         ComplaintService complaintService = new ComplaintService(notificationService);
 
         Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
+        complaintService.registerResident(resident);
 
         Complaint complaint = complaintService.raiseComplaint(
                 resident,
@@ -38,4 +39,3 @@ public class ApartmentMaintenanceApp {
                 .forEach(System.out::println);
     }
 }
-
