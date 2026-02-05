@@ -25,6 +25,7 @@ public class ApartmentMaintenanceApp {
         complaintService.registerResident(residentThree);
         complaintService.registerResident(residentFour);
         complaintService.registerResident(residentFive);
+        complaintService.registerResident(resident);
 
         Complaint complaint = complaintService.raiseComplaint(
                 resident,
