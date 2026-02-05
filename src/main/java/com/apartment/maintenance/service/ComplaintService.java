@@ -67,6 +67,10 @@ public class ComplaintService {
         return complaintStore.get(complaintId);
     }
 
+    public List<Complaint> getAllComplaints() {
+        return new ArrayList<>(complaintStore.values());
+    }
+
     public List<Complaint> getComplaintsForResident(String residentId) {
         return residentComplaintStore.getOrDefault(residentId, Collections.emptyList());
     }

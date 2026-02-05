@@ -43,9 +43,9 @@ public class ApartmentMaintenanceApp {
                 ComplaintStatus.RESOLVED
         );
 
-        System.out.println("Resident Complaints:");
+        System.out.println("All Complaints:");
         complaintService
-                .getComplaintsForResident(resident.getResidentId())
+                .getAllComplaints()
                 .forEach(System.out::println);
     }
 }
