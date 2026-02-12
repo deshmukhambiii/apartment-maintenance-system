@@ -9,12 +9,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComplaintTest {
 
     @Test
+    void constructorInitializesComplaintFields() {
     void constructorInitializesComplaintAsOpen() {
         Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
         Complaint complaint = new Complaint(resident, ComplaintCategory.PLUMBING, "Leakage");
 
         assertNotNull(complaint.getComplaintId());
         assertEquals(resident, complaint.getResident());
+        assertEquals(ComplaintCategory.PLUMBING, complaint.getCategory());
+        assertEquals("Leakage", complaint.getDescription());
+        assertEquals(ComplaintStatus.OPEN, complaint.getStatus());
+        assertNotNull(complaint.getCreatedAt());
+        assertEquals(complaint.getCreatedAt(), complaint.getUpdatedAt());
+    }
+
+    @Test
+    void updateStatusChangesComplaintStatusAndUpdatedAt() throws InterruptedException {
+        Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
+        Complaint complaint = new Complaint(resident, ComplaintCategory.SECURITY, "Lock broken");
+        var createdTime = complaint.getUpdatedAt();
+
+        Thread.sleep(5);
+        complaint.updateStatus(ComplaintStatus.IN_PROGRESS);
+
+        assertEquals(ComplaintStatus.IN_PROGRESS, complaint.getStatus());
+        assertTrue(complaint.getUpdatedAt().isAfter(createdTime));
         assertEquals(ComplaintStatus.OPEN, complaint.getStatus());
     }
 

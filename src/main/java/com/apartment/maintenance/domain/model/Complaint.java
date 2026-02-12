@@ -33,8 +33,24 @@ public class Complaint {
         return resident;
     }
 
+    public ComplaintCategory getCategory() {
+        return category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public ComplaintStatus getStatus() {
         return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void updateStatus(ComplaintStatus newStatus) {
@@ -52,4 +68,3 @@ public class Complaint {
                 '}';
     }
 }
-
