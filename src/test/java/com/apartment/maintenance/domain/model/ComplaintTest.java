@@ -10,6 +10,7 @@ class ComplaintTest {
 
     @Test
     void constructorInitializesComplaintFields() {
+    void constructorInitializesComplaintAsOpen() {
         Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
         Complaint complaint = new Complaint(resident, ComplaintCategory.PLUMBING, "Leakage");
 
@@ -33,6 +34,17 @@ class ComplaintTest {
 
         assertEquals(ComplaintStatus.IN_PROGRESS, complaint.getStatus());
         assertTrue(complaint.getUpdatedAt().isAfter(createdTime));
+        assertEquals(ComplaintStatus.OPEN, complaint.getStatus());
+    }
+
+    @Test
+    void updateStatusChangesComplaintStatus() {
+        Resident resident = new Resident("Amit Sharma", "amit@gmail.com");
+        Complaint complaint = new Complaint(resident, ComplaintCategory.SECURITY, "Lock broken");
+
+        complaint.updateStatus(ComplaintStatus.IN_PROGRESS);
+
+        assertEquals(ComplaintStatus.IN_PROGRESS, complaint.getStatus());
     }
 
     @Test
